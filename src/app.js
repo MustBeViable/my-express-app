@@ -39,7 +39,12 @@ app.get("/api/v1/cats", (reg, res) => {
 app.get("/api/v1/cats/:id", (reg, res) => {
   const id = reg.params.id;
   const cat = cats.find((cat) => cat.cat_id === parseInt(id));
-  res.send(cat ? res.json(cat) : res.status(404).json({message: "cat not found"}))
+  if (cat) {
+    res.json(cat);
+    return;
+  }
+
+  res.send(res.status(404).json({message: "cat not found"}))
 
 });
 

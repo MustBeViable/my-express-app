@@ -1,0 +1,7 @@
+#api http test for vscode rest client
+
+###get cats
+GET HTTP://localhost:3000/api/v1/cats
+
+###get cat by id
+GET GET http://localhost:3000/api/v1/cats/123
