@@ -4,7 +4,6 @@ const app = express();
 const hostname = '127.0.0.1';
 const port = 3000;
 
-// perus "Hello world" (ohjeen teksti)
 app.get('/', (req, res) => {
   res.send('Welcome to my REST API!');
 });
