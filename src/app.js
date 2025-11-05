@@ -24,7 +24,7 @@ const cats = [
   },
 ];
 
-app.use(express.static("public"));
+app.use('/public', express.static('public'));
 
 app.get("/api/v1", (req, res) => {
   res.send("Welcome to my REST API!");
