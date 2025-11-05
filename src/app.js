@@ -51,3 +51,5 @@ app.get("/api/v1/cats/:id", (reg, res) => {
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
+
+export default app;
