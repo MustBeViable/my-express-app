@@ -13,17 +13,5 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/v1", router);
 
-app.get("/example/middleware", (req, res, next) => {
-  console.log("stuff häppens");
-  next();
-},  (req, res, next) => {
-  console.log("stuff häppens2");
-  next();
-}, (req, res, next) => {
-  console.log("stuff häppens3");
-  next();
-}, (req, res, next) => {
-  console.log("stuff häppens4");
-});
 
 export default app;

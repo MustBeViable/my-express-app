@@ -6,16 +6,6 @@ GET HTTP://localhost:3000/api/v1/cats
 ###get cat by id
 GET http://localhost:3000/api/v1/cats/123
 
-### create cat WITH FILE
-POST http://localhost:3000/api/v1/cats
-
-cat_id: 69420
-cat_name: Kisuliini
-weight: 420
-owner: 3602
-birthdate: 2021-10-12
-file: < ./test/test-cat.png
-
 
 ### create cat WITH FILE 
 POST http://localhost:3000/api/v1/cats
@@ -42,10 +32,10 @@ Content-Disposition: form-data; name="birthdate"
 
 2021-10-12
 ------Boundary
-Content-Disposition: form-data; name="file"; filename="test-cat.png"
+Content-Disposition: form-data; name="file"; filename="puppy.jpg"
 Content-Type: image/png
 
-< ./test/test-cat.png
+< ./puppy.jpg
 ------Boundary--
 
 ###post test
