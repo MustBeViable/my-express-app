@@ -1,7 +1,70 @@
 #api http test for vscode rest client
-
+######## CATS ########
 ###get cats
 GET HTTP://localhost:3000/api/v1/cats
 
 ###get cat by id
-GET GET http://localhost:3000/api/v1/cats/123
+GET http://localhost:3000/api/v1/cats/123
+
+###post test
+POST http://localhost:3000/api/v1/cats/
+Content-Type: application/json
+
+{
+    "cat_id": 69420,
+    "cat_name": "Kisuliini",
+    "weight": 420,
+    "owner": 3602,
+    "filename": "f3dasdfkjsdfhgasdf",
+    "birthdate": "2021-10-12"
+}
+
+###put test
+PUT http://localhost:3000/api/v1/cats/123
+
+{
+    "cat_id": 123,
+    "cat_name": "Kisuliini",
+    "weight": 420,
+    "owner": 3602,
+    "filename": "f3dasdfkjsdfhgasdf",
+    "birthdate": "2021-10-12"
+}
+
+###delete test
+DELETE http://localhost:3000/api/v1/cats/123
+
+######## USERS ########
+
+### Get all users
+GET http://localhost:3000/api/v1/users
+
+### Get user by id
+GET http://localhost:3000/api/v1/users/3609
+
+### Create user
+POST http://localhost:3000/api/v1/users
+Content-Type: application/json
+
+{
+  "name": "john.doe",
+  "username": "password123",
+  "email": "john.doe@example.com",
+  "role": "user",
+  "password": "passowrd"
+}
+
+### Update user
+PUT http://localhost:3000/api/v1/users/3607
+Content-Type: application/json
+
+{
+  "name": "dohn.joe",
+  "username": "dohnjoe",
+  "email": "dohn.joe@example.com",
+  "role": "user",
+  "password": "passowrd"
+}
+
+### Delete user
+DELETE http://localhost:3000/api/v1/users/123
