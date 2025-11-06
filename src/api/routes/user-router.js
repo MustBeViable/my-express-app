@@ -9,11 +9,6 @@ import {
 
 const userRouter = express.Router();
 
-
-userRouter.get("/:id", (req, res) => {
-  getUserById(req, res)
-})
-
 userRouter.route("/").get(getUser).post(postUser);
 
 userRouter.route("/:id").get(getUserById).put(putUser).delete(deleteUser);
