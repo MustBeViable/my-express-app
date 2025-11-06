@@ -1,6 +1,5 @@
 import express from "express";
 import router from "./api/index.js";
-import catRouter from "./api/routes/cat-router.js";
 const app = express();
 const hostname = "127.0.0.1";
 const port = 3000;

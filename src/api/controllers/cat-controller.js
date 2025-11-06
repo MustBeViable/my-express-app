@@ -20,8 +20,8 @@ const getCatById = (req, res) => {
 };
 
 const postCat = (req, res) => {
-  console.log("req.body:", req.body);
-  console.log("req.file:", req.file);
+  //console.log("req.body:", req.body);
+  //console.log("req.file:", req.file);
   const payload = {
     ...req.body,
     filename: req.file?.filename ?? null
