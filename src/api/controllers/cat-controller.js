@@ -24,8 +24,7 @@ const postCat = (req, res) => {
   console.log("req.file:", req.file);
   const payload = {
     ...req.body,
-    filename: req.file?.filename ?? null,
-    originalname: req.file?.originalname ?? null,
+    filename: req.file?.filename ?? null
   };
   const result = addCat(payload);
   if (result.cat_id) {
