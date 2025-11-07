@@ -7,6 +7,7 @@ import {
   postCat,
   putCat,
   deleteCat,
+  getCatsOwner
 } from "../controllers/cat-controller.js";
 
 const catRouter = express.Router();
@@ -17,5 +18,6 @@ catRouter.route("/").get(getCat).post(upload.single("file"), createThumbnail, po
 
 catRouter.route("/:id").get(getCatById).put(putCat).delete(deleteCat);
 
+catRouter.route("/owner/:id").get(getCatsOwner);
 
 export default catRouter;

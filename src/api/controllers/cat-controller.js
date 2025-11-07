@@ -3,7 +3,8 @@ import {
   findCatById,
   listAllCats,
   modifyCat,
-  removeCat
+  removeCat,
+  getOwnerNameByCatId
 } from "../models/cat-model.js";
 
 const getCats = async (req, res) => {
@@ -52,10 +53,21 @@ const deleteCat = async (req, res) => {
   if (!catRemoved) {
     res.json({ message: "Cat not found." });
     res.status(404);
-  } else
+  } else {
   res.json({ message: catRemoved.message });
   res.status(200);
+}
 };
+
+const getCatsOwner = async (req, res) => {
+  const owner = await getOwnerNameByCatId(req.params.id);
+  if (!owner) {
+    res.json({ message: "owner not found." });
+    res.status(404);
+  } else {
+    res.json({ message: "owner found", name: owner.name })
+  }
+}
 
 /*
 
@@ -78,4 +90,4 @@ const deleteCat = (req, res) => {
 };
 */
 
-export { getCats as getCat, getCatById, postCat, putCat, deleteCat };
+export { getCats as getCat, getCatById, postCat, putCat, deleteCat, getCatsOwner };

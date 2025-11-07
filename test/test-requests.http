@@ -70,7 +70,7 @@ DELETE http://localhost:3000/api/v1/cats/45
 GET http://localhost:3000/api/v1/users
 
 ### Get user by id
-GET http://localhost:3000/api/v1/users/3609
+GET http://localhost:3000/api/v1/users/37
 
 ### Create user
 POST http://localhost:3000/api/v1/users
@@ -78,14 +78,14 @@ Content-Type: application/json
 
 {
   "name": "john.doe",
-  "username": "password123",
+  "username": "johndoe",
   "email": "john.doe@example.com",
-  "role": "user",
-  "password": "passowrd"
+  "password": "passowrd",
+  "role": "user"
 }
 
 ### Update user
-PUT http://localhost:3000/api/v1/users/3607
+PUT http://localhost:3000/api/v1/users/38
 Content-Type: application/json
 
 {
@@ -98,3 +98,9 @@ Content-Type: application/json
 
 ### Delete user
 DELETE http://localhost:3000/api/v1/users/123
+
+### get cats by user id
+GET http://localhost:3000/api/v1/users/cats/37
+
+### get cats owner name by cats id
+GET http://localhost:3000/api/v1/cats/owner/37
