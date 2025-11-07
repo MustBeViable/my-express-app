@@ -1,5 +1,5 @@
 import promisePool from "../../utils/database.js";
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
 
 const listAllUsers = async () => {
   const [rows] = await promisePool.query("SELECT * FROM wsk_users");
@@ -51,27 +51,39 @@ const findUserByUsername = async (username) => {
   return rows[0];
 };
 
-const login = async (user) => {
-    const sql = `SELECT *
-              FROM wsk_users 
-              WHERE username = ?`;
-    const params = [user]
-    const result = await promisePool.execute(sql, params)
-}
-
-const updateUser = (user) => {};
-/*
-const deleteUserById = (id) => {
-  if (findUserById(id)) {
-    for (let i = 0; i < userItems.length; i++) {
-      if (findUserById(id) == userItems[i]) {
-        userItems.splice(i, 1);
-      }
-    }
-    return true;
-  } else {
+const updateUser = async (user, id) => {
+  const { name, username, email, password } = user;
+  const sql = `
+    UPDATE wsk_users
+    SET name = ?, username = ?, email = ?, password = ?, role = 'user'
+    WHERE user_id = ?`;
+  const params = [name, username, email, password, id];
+  const result = await promisePool.execute(sql, params);
+  if (result[0].affectedRows === 0) {
     return false;
   }
+  return { user_id: result[0].insertId };
 };
-*/
-export { listAllUsers, findUserById, addUser, getCatsByUser, findUserByUsername };
+
+const deleteUser = async (userId) => {
+  const sql = `
+    DELETE FROM wsk_users
+    WHERE user_id = ?;
+  `;
+  const params = [userId];
+  const result = await promisePool.execute(sql, params);
+  if (result[0].affectedRows === 0) {
+    return false;
+  }
+  return true;
+};
+
+export {
+  listAllUsers,
+  findUserById,
+  addUser,
+  getCatsByUser,
+  findUserByUsername,
+  updateUser,
+  deleteUser
+};

@@ -1,9 +1,11 @@
-import  bcrypt from "bcrypt";
+import bcrypt from "bcrypt";
 import {
   listAllUsers,
   findUserById,
   addUser,
   getCatsByUser,
+  updateUser,
+  deleteUser
 } from "../models/user-model.js";
 
 const getUser = async (req, res) => {
@@ -32,23 +34,39 @@ const postUser = async (req, res) => {
 };
 
 const getUserCats = async (req, res) => {
-  const result = await getCatsByUser(req.params.id);
-  if (result) {
-    res.json({ message: "cats found", result });
-    res.status(200);
-  } else {
-    res.sendStatus(404);
+  if (req.params.id === res.locals.user.user_id) {
+    const result = await getCatsByUser(req.params.id);
+    if (result) {
+      res.json({ message: "cats found", result });
+      res.status(200);
+    } else {
+      res.sendStatus(404);
+    }
+    return;
   }
+  res.sendStatus(400);
 };
 
-const putUser = (req, res) => {
-  res.json({ message: "User updated." });
-  res.status(200);
+const putUser = async (req, res) => {
+  if (req.params.id === res.locals.user.user_id) {
+    const result = await updateUser(req.body, req.params.id);
+    if (result) {
+      res.json({ message: "User updated." });
+      res.status(200);
+      return;
+    }
+    res.sendStatus(400);
+    return;
+  }
+  res.sendStatus(401);
 };
 
-const deleteUser = (req, res) => {
-  res.json({ message: "User deleted." });
-  res.status(200);
+const deleteUser = async (req, res) => {
+  if (req.params.id === res.locals.user.user_id) {
+    const result = await
+    res.json({ message: "User deleted." });
+    res.status(200);
+  }
 };
 
 /*

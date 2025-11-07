@@ -1,41 +1,42 @@
 #api http test for vscode rest client
+
+## variables
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozOCwibmFtZSI6ImpvaG4uZG9lIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzYyNTE2MDczLCJleHAiOjE3NjI2MDI0NzN9.FBCeKndcHFSHChXiSx7H4Y1xBGpyXlOH3V99oQR8xBM
+
 ######## CATS ########
 ###get cats
 GET HTTP://localhost:3000/api/v1/cats
+Authorization: Bearer {{token}}
 
 ###get cat by id
 GET http://localhost:3000/api/v1/cats/41
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozOCwibmFtZSI6ImpvaG4uZG9lIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzYyNTE2MDczLCJleHAiOjE3NjI2MDI0NzN9.FBCeKndcHFSHChXiSx7H4Y1xBGpyXlOH3V99oQR8xBM
+Authorization: Bearer {{token}}
 
 
 ### create cat WITH FILE 
 POST http://localhost:3000/api/v1/cats
-Content-Type: multipart/form-data; boundary=----Boundary
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=BOUNDARY
 
-------Boundary
+--BOUNDARY
 Content-Disposition: form-data; name="cat_name"
 
 Kisuliini
-------Boundary
+--BOUNDARY
 Content-Disposition: form-data; name="weight"
 
 420
-------Boundary
-Content-Disposition: form-data; name="owner"
-
-37
-
-------Boundary
-Content-Disposition: form-data; name="file"; filename="puppy.jpg"
-Content-Type: image/png
-
-< ./puppy.jpg
-
-------Boundary
+--BOUNDARY
 Content-Disposition: form-data; name="birthdate"
 
 2021-10-12
-------Boundary--
+--BOUNDARY
+Content-Disposition: form-data; name="file"; filename="puppy.jpg"
+Content-Type: image/jpeg
+
+< ./puppy.jpg
+--BOUNDARY--
+
 ###post test
 POST http://localhost:3000/api/v1/cats/
 Content-Type: application/json
@@ -50,7 +51,8 @@ Content-Type: application/json
 }
 
 ###put test
-PUT http://localhost:3000/api/v1/cats/44
+PUT http://localhost:3000/api/v1/cats/38
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -63,23 +65,27 @@ Content-Type: application/json
 }
 
 ###delete test
-DELETE http://localhost:3000/api/v1/cats/45
+DELETE http://localhost:3000/api/v1/cats/38
+Authorization: Bearer {{token}}
 
 ######## USERS ########
 
 ### Get all users
 GET http://localhost:3000/api/v1/users
+Authorization: Bearer {{token}}
 
 ### Get user by id
 GET http://localhost:3000/api/v1/users/37
+Authorization: Bearer {{token}}
 
 ### Create user
 POST http://localhost:3000/api/v1/users
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
   "name": "john.doe",
-  "username": "johndoe",
+  "username": "johndoe2",
   "email": "john.doe@example.com",
   "password": "passowrd",
   "role": "user"
@@ -87,24 +93,27 @@ Content-Type: application/json
 
 ### Update user
 PUT http://localhost:3000/api/v1/users/38
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
   "name": "dohn.joe",
   "username": "dohnjoe",
   "email": "dohn.joe@example.com",
-  "role": "user",
   "password": "passowrd"
 }
 
 ### Delete user
 DELETE http://localhost:3000/api/v1/users/123
+Authorization: Bearer {{token}}
 
 ### get cats by user id
 GET http://localhost:3000/api/v1/users/cats/37
+Authorization: Bearer {{token}}
 
 ### get cats owner name by cats id
 GET http://localhost:3000/api/v1/cats/owner/37
+Authorization: Bearer {{token}}
 
 ### test login
 POST http://localhost:3000/api/v1/auth/login
@@ -118,4 +127,4 @@ Content-Type: application/json
 
 ### Post login
 GET http://localhost:3000/api/v1/auth/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozOCwibmFtZSI6ImpvaG4uZG9lIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzYyNTE2MDczLCJleHAiOjE3NjI2MDI0NzN9.FBCeKndcHFSHChXiSx7H4Y1xBGpyXlOH3V99oQR8xBM
+Authorization: Bearer {{token}}

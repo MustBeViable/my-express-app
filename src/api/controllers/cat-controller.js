@@ -4,7 +4,8 @@ import {
   listAllCats,
   modifyCat,
   removeCat,
-  getOwnerNameByCatId
+  getOwnerNameByCatId,
+  getCatByOnwerId,
 } from "../models/cat-model.js";
 
 const getCats = async (req, res) => {
@@ -26,6 +27,7 @@ const postCat = async (req, res) => {
   //console.log("req.file:", req.file);
   const payload = {
     ...req.body,
+    owner: res.locals.user.user_id ?? null,
     filename: req.file?.filename ?? null,
   };
   const result = await addCat(payload);
@@ -38,25 +40,32 @@ const postCat = async (req, res) => {
 };
 
 const putCat = async (req, res) => {
-  const updateCat = await modifyCat(req.body, req.body.cat_id);
-  if (!updateCat) {
-    res.json({ message: "Cat not found." });
-    res.status(404);
-  } else {
-    res.json({ message: updateCat.message });
-    res.status(200);
+  if (getCatByOnwerId(res.locals.user.user_id) || res.locals.user.role === "admin") {
+    const updateCat = await modifyCat(req.body, req.body.cat_id);
+    if (!updateCat) {
+      res.json({ message: "Cat not found." });
+      res.status(404);
+      return;
+    } else {
+      res.json({ message: updateCat.message });
+      res.status(200);
+      return;
+    }
   }
+  res.sendStatus(400);
 };
 
 const deleteCat = async (req, res) => {
-  const catRemoved = await removeCat(params.id);
-  if (!catRemoved) {
-    res.json({ message: "Cat not found." });
-    res.status(404);
-  } else {
-  res.json({ message: catRemoved.message });
-  res.status(200);
-}
+  if (getCatByOnwerId(res.locals.user.user_id) || res.locals.user.role === "admin" ) {
+    const catRemoved = await removeCat(req.params.id);
+    if (!catRemoved) {
+      res.json({ message: "Cat not found." });
+      res.status(404);
+    } else {
+      res.json({ message: catRemoved.message });
+      res.status(200);
+    }
+  }
 };
 
 const getCatsOwner = async (req, res) => {
@@ -65,29 +74,15 @@ const getCatsOwner = async (req, res) => {
     res.json({ message: "owner not found." });
     res.status(404);
   } else {
-    res.json({ message: "owner found", name: owner.name })
-  }
-}
-
-/*
-
-const putCat = (req, res) => {
-  const cat = findCatById(res.params.id);
-  if (cat) {
-
-    res.sendStatus(200);
-   }
-};
-
-const deleteCat = (req, res) => {
-  const result = deleteCatById(req.params.id);
-  if (result) {
-    res.json({ message: "Cat deleted", result });
-    res.sendStatus(200);
-  } else {
-    res.sendStatus(404);
+    res.json({ message: "owner found", name: owner.name });
   }
 };
-*/
 
-export { getCats as getCat, getCatById, postCat, putCat, deleteCat, getCatsOwner };
+export {
+  getCats as getCat,
+  getCatById,
+  postCat,
+  putCat,
+  deleteCat,
+  getCatsOwner,
+};
