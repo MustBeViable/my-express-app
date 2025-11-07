@@ -1,6 +1,9 @@
+import  bcrypt from "bcrypt";
 import {
-listAllUsers, findUserById, addUser,
-getCatsByUser
+  listAllUsers,
+  findUserById,
+  addUser,
+  getCatsByUser,
 } from "../models/user-model.js";
 
 const getUser = async (req, res) => {
@@ -18,6 +21,7 @@ const getUserById = async (req, res) => {
 };
 
 const postUser = async (req, res) => {
+  req.body.password = await bcrypt.hash(req.body.password, 10);
   const result = await addUser(req.body);
   if (result.user_id) {
     res.status(201);
@@ -30,12 +34,12 @@ const postUser = async (req, res) => {
 const getUserCats = async (req, res) => {
   const result = await getCatsByUser(req.params.id);
   if (result) {
-    res.json({ message: "cats found", result});
+    res.json({ message: "cats found", result });
     res.status(200);
   } else {
     res.sendStatus(404);
   }
-}
+};
 
 const putUser = (req, res) => {
   res.json({ message: "User updated." });

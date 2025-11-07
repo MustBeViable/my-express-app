@@ -5,6 +5,7 @@ GET HTTP://localhost:3000/api/v1/cats
 
 ###get cat by id
 GET http://localhost:3000/api/v1/cats/41
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozOCwibmFtZSI6ImpvaG4uZG9lIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzYyNTE2MDczLCJleHAiOjE3NjI2MDI0NzN9.FBCeKndcHFSHChXiSx7H4Y1xBGpyXlOH3V99oQR8xBM
 
 
 ### create cat WITH FILE 
@@ -104,3 +105,17 @@ GET http://localhost:3000/api/v1/users/cats/37
 
 ### get cats owner name by cats id
 GET http://localhost:3000/api/v1/cats/owner/37
+
+### test login
+POST http://localhost:3000/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "username": "johndoe",
+  "password": "passowrd"
+}
+
+
+### Post login
+GET http://localhost:3000/api/v1/auth/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozOCwibmFtZSI6ImpvaG4uZG9lIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzYyNTE2MDczLCJleHAiOjE3NjI2MDI0NzN9.FBCeKndcHFSHChXiSx7H4Y1xBGpyXlOH3V99oQR8xBM

@@ -1,4 +1,5 @@
 import promisePool from "../../utils/database.js";
+import bcrypt from 'bcrypt';
 
 const listAllUsers = async () => {
   const [rows] = await promisePool.query("SELECT * FROM wsk_users");
@@ -39,6 +40,25 @@ const getCatsByUser = async (user_id) => {
   return result;
 };
 
+const findUserByUsername = async (username) => {
+  const [rows] = await promisePool.execute(
+    "SELECT * FROM wsk_users WHERE username = ?",
+    [username]
+  );
+  if (rows.length === 0) {
+    return false;
+  }
+  return rows[0];
+};
+
+const login = async (user) => {
+    const sql = `SELECT *
+              FROM wsk_users 
+              WHERE username = ?`;
+    const params = [user]
+    const result = await promisePool.execute(sql, params)
+}
+
 const updateUser = (user) => {};
 /*
 const deleteUserById = (id) => {
@@ -54,4 +74,4 @@ const deleteUserById = (id) => {
   }
 };
 */
-export { listAllUsers, findUserById, addUser, getCatsByUser };
+export { listAllUsers, findUserById, addUser, getCatsByUser, findUserByUsername };

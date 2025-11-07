@@ -1,4 +1,5 @@
 import sharp from "sharp";
+import "dotenv/config";
 
 const createThumbnail = async (req, res, next) => {
   if (!req.file) {
@@ -6,7 +7,6 @@ const createThumbnail = async (req, res, next) => {
     next();
     return;
   }
-  // TODO: use file path to create 160x160 png thumbnail with sharp
   const thumbPath = req.file.path + "_thumb";
   await sharp(req.file.path)
     .resize(160, 160, { fit: "cover" })
@@ -14,5 +14,6 @@ const createThumbnail = async (req, res, next) => {
     .toFile(thumbPath);
   next();
 };
+
 
 export { createThumbnail };
