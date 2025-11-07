@@ -1,47 +1,46 @@
-const userItems = [
-  {
-    user_id: 3609,
-    name: "John Doe",
-    username: "johndoe",
-    email: "john@metropolia.fi",
-    role: "user",
-    password: "password",
-  },
-  {
-    user_id: 3608,
-    name: "Jeesus Nasaretilainen",
-    username: "jesse",
-    email: "jeesus@metropolia.fi",
-    role: "user",
-    password: "password",
-  },
-  {
-    user_id: 3607,
-    name: "Mooses Pooses",
-    username: "mooses",
-    email: "mooses@metropolia.fi",
-    role: "user",
-    password: "password",
-  },
-];
+import promisePool from "../../utils/database.js";
 
-const listAllUsers = () => {
-  return userItems;
+const listAllUsers = async () => {
+  const [rows] = await promisePool.query("SELECT * FROM wsk_users");
+  return rows;
 };
 
-const findUserById = (id) => {
-  return userItems.find((item) => item.user_id == id);
+const findUserById = async (id) => {
+  const [rows] = await promisePool.execute(
+    "SELECT * FROM wsk_users WHERE user_id = ?",
+    [id]
+  );
+  if (rows.length === 0) {
+    return false;
+  }
+  return rows[0];
 };
 
-const addUser = (user) => {
-  const { name, username, email, role, password } = user;
-  const newId = userItems[0].user_id + 1;
-  userItems.unshift({ user_id: newId, name, username, email, role, password });
-  return { user_id: newId };
+const addUser = async (user) => {
+  const { name, username, email, password, role } = user;
+  const sql = `INSERT INTO wsk_users (name, username, email, password, role)
+               VALUES (?, ?, ?, ?, ?)`;
+  const params = [name, username, email, password, role];
+  const result = await promisePool.execute(sql, params);
+  if (result[0].affectedRows === 0) {
+    return false;
+  }
+  return { user_id: result[0].insertId };
+};
+
+const getCatsByUser = async (user_id) => {
+  console.log(user_id);
+  const sql = `SELECT * FROM wsk_cats WHERE owner = ?`;
+  const params = [user_id];
+  const result = await promisePool.execute(sql, params);
+  if (result.length === 0) {
+    return false;
+  }
+  return result;
 };
 
 const updateUser = (user) => {};
-
+/*
 const deleteUserById = (id) => {
   if (findUserById(id)) {
     for (let i = 0; i < userItems.length; i++) {
@@ -54,5 +53,5 @@ const deleteUserById = (id) => {
     return false;
   }
 };
-
-export { listAllUsers, findUserById, addUser, updateUser, deleteUserById };
+*/
+export { listAllUsers, findUserById, addUser, getCatsByUser };
