@@ -2,16 +2,17 @@ import {
   addCat,
   findCatById,
   listAllCats,
-  deleteCatById,
+  modifyCat,
+  removeCat
 } from "../models/cat-model.js";
 
-const getCat = (req, res) => {
-  res.json(listAllCats());
+const getCats = async (req, res) => {
+  res.json(await listAllCats());
 };
 
-const getCatById = (req, res) => {
+const getCatById = async (req, res) => {
   console.log(req.params.id);
-  const cat = findCatById(req.params.id);
+  const cat = await findCatById(req.params.id);
   if (cat) {
     res.json(cat);
   } else {
@@ -19,14 +20,14 @@ const getCatById = (req, res) => {
   }
 };
 
-const postCat = (req, res) => {
+const postCat = async (req, res) => {
   //console.log("req.body:", req.body);
   //console.log("req.file:", req.file);
   const payload = {
     ...req.body,
-    filename: req.file?.filename ?? null
+    filename: req.file?.filename ?? null,
   };
-  const result = addCat(payload);
+  const result = await addCat(payload);
   if (result.cat_id) {
     res.status(201);
     res.json({ message: "New cat added.", result });
@@ -35,27 +36,28 @@ const postCat = (req, res) => {
   }
 };
 
-const putCat = (req, res) => {
-  res.json({ message: "Cat updated." });
-  res.status(200);
+const putCat = async (req, res) => {
+  const updateCat = await modifyCat(req.body, req.body.cat_id);
+  if (!updateCat) {
+    res.json({ message: "Cat not found." });
+    res.status(404);
+  } else {
+    res.json({ message: updateCat.message });
+    res.status(200);
+  }
 };
 
-const deleteCat = (req, res) => {
-  res.json({ message: "Cat deleted." });
+const deleteCat = async (req, res) => {
+  const catRemoved = await removeCat(params.id);
+  if (!catRemoved) {
+    res.json({ message: "Cat not found." });
+    res.status(404);
+  } else
+  res.json({ message: catRemoved.message });
   res.status(200);
 };
 
 /*
-const postCat = (req, res) => {
-  const result = addCat(req.body);
-  if (result.cat_id) {
-    res.status(201);
-    res.json({ message: "New cat added.", result });
-  } else {
-    res.sendStatus(400);
-  }
-};
-
 
 const putCat = (req, res) => {
   const cat = findCatById(res.params.id);
@@ -76,4 +78,4 @@ const deleteCat = (req, res) => {
 };
 */
 
-export { getCat, getCatById, postCat, putCat, deleteCat };
+export { getCats as getCat, getCatById, postCat, putCat, deleteCat };

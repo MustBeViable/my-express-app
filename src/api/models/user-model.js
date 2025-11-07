@@ -1,29 +1,3 @@
-const userItems = [
-  {
-    user_id: 3609,
-    name: "John Doe",
-    username: "johndoe",
-    email: "john@metropolia.fi",
-    role: "user",
-    password: "password",
-  },
-  {
-    user_id: 3608,
-    name: "Jeesus Nasaretilainen",
-    username: "jesse",
-    email: "jeesus@metropolia.fi",
-    role: "user",
-    password: "password",
-  },
-  {
-    user_id: 3607,
-    name: "Mooses Pooses",
-    username: "mooses",
-    email: "mooses@metropolia.fi",
-    role: "user",
-    password: "password",
-  },
-];
 
 const listAllUsers = () => {
   return userItems;
