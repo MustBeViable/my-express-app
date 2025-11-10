@@ -34,7 +34,7 @@ const postUser = async (req, res) => {
 };
 
 const getUserCats = async (req, res) => {
-  if (req.params.id === res.locals.user.user_id) {
+  if (req.params.id === res.locals.user.user_id || res.locals.user.role === "admin") {
     const result = await getCatsByUser(req.params.id);
     if (result) {
       res.json({ message: "cats found", result });
@@ -44,11 +44,11 @@ const getUserCats = async (req, res) => {
     }
     return;
   }
-  res.sendStatus(400);
+  res.sendStatus(403);
 };
 
 const putUser = async (req, res) => {
-  if (req.params.id === res.locals.user.user_id) {
+  if (req.params.id === res.locals.user.user_id || res.locals.user.role === "admin") {
     const result = await updateUser(req.body, req.params.id);
     if (result) {
       res.json({ message: "User updated." });
@@ -58,12 +58,12 @@ const putUser = async (req, res) => {
     res.sendStatus(400);
     return;
   }
-  res.sendStatus(401);
+  res.sendStatus(403);
 };
 
 const deleteUser = async (req, res) => {
-  if (req.params.id === res.locals.user.user_id) {
-    const result = await removeUser(res.locals.user.user_id);
+  if (req.params.id === res.locals.user.user_id || res.locals.user.role === "admin") {
+    const result = await removeUser(req.params.id);
     if (result) {
       res.json({ message: "User deleted." });
       res.status(200);
@@ -71,7 +71,7 @@ const deleteUser = async (req, res) => {
       res.sendStatus(404);
     }
   }
-  res.sendStatus(401);
+  res.sendStatus(403);
 };
 
 

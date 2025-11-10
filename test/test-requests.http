@@ -1,9 +1,8 @@
 #api http test for vscode rest client
 
 ## variables
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0MCwibmFtZSI6ImpvaG4uZG9lIiwidXNlcm5hbWUiOiJqb2huZG9lMiIsImVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc2Mjc2MjI4MCwiZXhwIjoxNzYzNjI2MjgwfQ.O5FXd4zvUhhAGbqkW12_2fsIbTNsi6Xq4q8clLe5ltc
-@admin-token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0MiwibmFtZSI6ImFkbWluYWRtaW4iLCJ1c2VybmFtZSI6ImFkbWluMyIsImVtYWlsIjoiYWRtaW4uZG9lQGV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzYyNzY1NTI2LCJleHAiOjE3NjM2Mjk1MjZ9.hkL5BJjPaGH24Y2VsTIz50hCF2WjjG8fHt9zJaM0QYA
-
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0MSwibmFtZSI6InRlc3QudXNlciIsInVzZXJuYW1lIjoiYWJiYSIsImVtYWlsIjoiYWRtaS5kZGRlQGV4YW1wbGUuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NjI3NzQzNTYsImV4cCI6MTc2MzYzODM1Nn0.Wo-KpUyG0A-EW6ZH1B6QTJhBsB45a5ZaBtFVI813QYU
+@admin-token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozOCwibmFtZSI6ImFkbWluYWRtaW4iLCJ1c2VybmFtZSI6ImFkbWluMyIsImVtYWlsIjoiYWRtaW4uZG9lQGV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzYyNzczOTEzLCJleHAiOjE3NjM2Mzc5MTN9.1e1vn1LicwRWx3EX7tLVUglFtkFBj4eNQ_8RI-tY4HM
 ######## CATS ########
 ###get cats
 GET HTTP://localhost:3000/api/v1/cats
@@ -71,11 +70,11 @@ POST http://localhost:3000/api/v1/users
 Content-Type: application/json
 
 {
-  "name": "adminadmin",
-  "username": "admin3",
-  "email": "admin.doe@example.com",
+  "name": "test.user",
+  "username": "abba",
+  "email": "admi.ddde@example.com",
   "password": "password",
-  "role": "admin"
+  "role": "user"
 }
 
 ### Update user
@@ -91,7 +90,7 @@ Content-Type: application/json
 }
 
 ### Delete user
-DELETE http://localhost:3000/api/v1/users/123
+DELETE http://localhost:3000/api/v1/users/37
 Authorization: Bearer {{token}}
 
 ### get cats by user id
@@ -107,8 +106,8 @@ POST http://localhost:3000/api/v1/auth/login
 Content-Type: application/json
 
 {
-  "username": "johndoe2",
-  "password": "passowrd"
+  "username": "abba",
+  "password": "password"
 }
 
 ### log in admin
@@ -125,6 +124,10 @@ GET http://localhost:3000/api/v1/auth/me
 Authorization: Bearer {{token}}
 
 ######## ADMIN TESTS ########
+
+### Modify as admin
+
+### Cat:
 PUT http://localhost:3000/api/v1/cats/43
 Authorization: Bearer {{admin-token}}
 Content-Type: application/json
@@ -137,3 +140,24 @@ Content-Type: application/json
     "birthdate": "2021-10-12"
 }
 
+### User:
+PUT http://localhost:3000/api/v1/users/37
+Authorization: Bearer {{admin-token}}
+Content-Type: application/json
+
+{
+  "name": "dohn.joe",
+  "username": "dohnjoe",
+  "email": "dohn.joe@example.com",
+  "password": "passowrd"
+}
+
+### Admin delete test
+
+## User:
+DELETE http://localhost:3000/api/v1/users/40
+Authorization: Bearer {{admin-token}}
+
+### Cat:
+DELETE http://localhost:3000/api/v1/cats/45
+Authorization: Bearer {{admin-token}}

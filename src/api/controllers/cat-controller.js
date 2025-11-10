@@ -23,8 +23,6 @@ const getCatById = async (req, res) => {
 };
 
 const postCat = async (req, res) => {
-  //console.log("req.body:", req.body);
-  //console.log("req.file:", req.file);
   const payload = {
     ...req.body,
     owner: res.locals.user.user_id ?? null,
@@ -60,7 +58,7 @@ const putCat = async (req, res) => {
       return;
     }
   }
-  res.sendStatus(401);
+  res.sendStatus(403);
 };
 
 const deleteCat = async (req, res) => {
@@ -69,11 +67,14 @@ const deleteCat = async (req, res) => {
     if (!catRemoved) {
       res.json({ message: "Cat not found." });
       res.status(404);
+      return;
     } else {
       res.json({ message: catRemoved.message });
       res.status(200);
+      return;
     }
   }
+  res.sendStatus(403);
 };
 
 const getCatsOwner = async (req, res) => {
