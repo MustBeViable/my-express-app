@@ -65,7 +65,7 @@ const updateUser = async (user, id) => {
   return { user_id: result[0].insertId };
 };
 
-const deleteUser = async (userId) => {
+const removeUser = async (userId) => {
   const sql = `
     DELETE FROM wsk_users
     WHERE user_id = ?;
@@ -85,5 +85,5 @@ export {
   getCatsByUser,
   findUserByUsername,
   updateUser,
-  deleteUser
+  removeUser
 };

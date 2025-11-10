@@ -5,10 +5,10 @@ import {
   addUser,
   getCatsByUser,
   updateUser,
-  deleteUser
+  removeUser,
 } from "../models/user-model.js";
 
-const getUser = async (req, res) => {
+const getUsers = async (req, res) => {
   res.json(await listAllUsers());
 };
 
@@ -63,41 +63,16 @@ const putUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   if (req.params.id === res.locals.user.user_id) {
-    const result = await
-    res.json({ message: "User deleted." });
-    res.status(200);
+    const result = await removeUser(res.locals.user.user_id);
+    if (result) {
+      res.json({ message: "User deleted." });
+      res.status(200);
+    } else {
+      res.sendStatus(404);
+    }
   }
-};
-
-/*
-const postUser = (req, res) => {
-  const result = addUser(req.body);
-  if (result.user_id) {
-    res.status(201);
-    res.json({ message: "New user added.", result });
-  } else {
-    res.sendStatus(400);
-  }
+  res.sendStatus(401);
 };
 
 
-const putUser = (req, res) => {
-  const user = findUserById(res.params.id);
-  if (user) {
-
-    res.sendStatus(200);
-   }
-};
-
-const deleteUser = (req, res) => {
-  const result = deleteUserById(req.params.id);
-  if (result) {
-    res.json({ message: "User deleted", result });
-    res.sendStatus(200);
-  } else {
-    res.sendStatus(404);
-  }
-};
-*/
-
-export { getUser, getUserById, postUser, putUser, deleteUser, getUserCats };
+export { getUsers, getUserById, postUser, putUser, deleteUser, getUserCats };

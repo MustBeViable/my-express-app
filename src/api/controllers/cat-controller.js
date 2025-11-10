@@ -40,19 +40,27 @@ const postCat = async (req, res) => {
 };
 
 const putCat = async (req, res) => {
-  if (getCatByOnwerId(res.locals.user.user_id) || res.locals.user.role === "admin") {
-    const updateCat = await modifyCat(req.body, req.body.cat_id);
+  let isUsersCat;
+  const cats = await getCatByOnwerId(res.locals.user.user_id);
+  console.log(typeof cats)
+  cats[0].forEach(cat => {
+    if (cat.owner === res.locals.user.user_id) {
+      isUsersCat = true;
+    }
+  })
+  if (isUsersCat || res.locals.user.role === "admin") {
+    const updateCat = await modifyCat(req.body, req.params.id);
     if (!updateCat) {
-      res.json({ message: "Cat not found." });
       res.status(404);
+      res.json({ message: "Cat not found." });
       return;
     } else {
-      res.json({ message: updateCat.message });
       res.status(200);
+      res.json({ message: updateCat.message });
       return;
     }
   }
-  res.sendStatus(400);
+  res.sendStatus(401);
 };
 
 const deleteCat = async (req, res) => {

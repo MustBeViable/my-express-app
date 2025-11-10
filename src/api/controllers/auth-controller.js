@@ -7,11 +7,13 @@ const postLogin = async (req, res) => {
   console.log("postLogin", req.body);
   const user = await findUserByUsername(req.body.username);
   if (!user) {
+    console.log("user not found")
     res.sendStatus(401);
     return;
   }
 
   if (!bcrypt.compareSync(req.body.password, user.password)) {
+    console.log("incorrect password")
     res.sendStatus(401);
     return;
   }
@@ -34,7 +36,6 @@ const postLogin = async (req, res) => {
 };
 
  const getMe = async (req, res) => {
-   console.log('getMe', res.locals.user);
    if ( res.locals.user) {
      res.json({message: 'token ok', user:  res.locals.user});
    } else {

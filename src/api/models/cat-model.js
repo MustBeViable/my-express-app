@@ -32,10 +32,13 @@ const addCat = async (cat) => {
 };
 
 const modifyCat = async (cat, id) => {
-  const sql = promisePool.format(`UPDATE wsk_cats SET ? WHERE cat_id = ?`, [
-    cat,
+  console.log("tämä:", cat)
+  const sql = promisePool.format(`UPDATE wsk_cats SET cat_name = ?, weight = ? WHERE cat_id = ?`, [
+    cat.cat_name,
+    cat.weight,
     id,
   ]);
+  console.log(sql);
   const rows = await promisePool.execute(sql);
   console.log("rows", rows);
   if (rows[0].affectedRows === 0) {
@@ -58,7 +61,7 @@ const removeCat = async (id) => {
 
 const getCatByOnwerId = async (userId) => {
   const sql = `
-  SELECT cat_id
+  SELECT *
   FROM wsk_cats
   where owner = ?`;
   const params = [userId];
@@ -66,7 +69,7 @@ const getCatByOnwerId = async (userId) => {
   if (result.length === 0) {
     return false;
   }
-  return true;
+  return result;
 };
 
 const getOwnerNameByCatId = async (id) => {

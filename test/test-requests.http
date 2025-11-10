@@ -1,7 +1,8 @@
 #api http test for vscode rest client
 
 ## variables
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozOCwibmFtZSI6ImpvaG4uZG9lIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiZW1haWwiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzYyNTE2MDczLCJleHAiOjE3NjI2MDI0NzN9.FBCeKndcHFSHChXiSx7H4Y1xBGpyXlOH3V99oQR8xBM
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0MCwibmFtZSI6ImpvaG4uZG9lIiwidXNlcm5hbWUiOiJqb2huZG9lMiIsImVtYWlsIjoiam9obi5kb2VAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc2Mjc2MjI4MCwiZXhwIjoxNzYzNjI2MjgwfQ.O5FXd4zvUhhAGbqkW12_2fsIbTNsi6Xq4q8clLe5ltc
+@admin-token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0MiwibmFtZSI6ImFkbWluYWRtaW4iLCJ1c2VybmFtZSI6ImFkbWluMyIsImVtYWlsIjoiYWRtaW4uZG9lQGV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzYyNzY1NTI2LCJleHAiOjE3NjM2Mjk1MjZ9.hkL5BJjPaGH24Y2VsTIz50hCF2WjjG8fHt9zJaM0QYA
 
 ######## CATS ########
 ###get cats
@@ -37,29 +38,16 @@ Content-Type: image/jpeg
 < ./puppy.jpg
 --BOUNDARY--
 
-###post test
-POST http://localhost:3000/api/v1/cats/
-Content-Type: application/json
-
-{
-    "cat_id": 69420,
-    "cat_name": "Kisuliini",
-    "weight": 420,
-    "owner": 3602,
-    "filename": "f3dasdfkjsdfhgasdf",
-    "birthdate": "2021-10-12"
-}
 
 ###put test
-PUT http://localhost:3000/api/v1/cats/38
+PUT http://localhost:3000/api/v1/cats/43
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "cat_id": 45,
     "cat_name": "Liini-kisu",
     "weight": 66,
-    "owner": 37,
+    "owner": 40,
     "filename": "f3dasdfkjsdfhgasdf",
     "birthdate": "2021-10-12"
 }
@@ -80,15 +68,14 @@ Authorization: Bearer {{token}}
 
 ### Create user
 POST http://localhost:3000/api/v1/users
-Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "name": "john.doe",
-  "username": "johndoe2",
-  "email": "john.doe@example.com",
-  "password": "passowrd",
-  "role": "user"
+  "name": "adminadmin",
+  "username": "admin3",
+  "email": "admin.doe@example.com",
+  "password": "password",
+  "role": "admin"
 }
 
 ### Update user
@@ -120,11 +107,33 @@ POST http://localhost:3000/api/v1/auth/login
 Content-Type: application/json
 
 {
-  "username": "johndoe",
+  "username": "johndoe2",
   "password": "passowrd"
 }
 
+### log in admin
+POST http://localhost:3000/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin3",
+  "password": "password"
+}
 
 ### Post login
 GET http://localhost:3000/api/v1/auth/me
 Authorization: Bearer {{token}}
+
+######## ADMIN TESTS ########
+PUT http://localhost:3000/api/v1/cats/43
+Authorization: Bearer {{admin-token}}
+Content-Type: application/json
+
+{
+    "cat_name": "Liini-kisu72",
+    "weight": 22,
+    "owner": 40,
+    "filename": "f3dasdfkjsdfhgasdf",
+    "birthdate": "2021-10-12"
+}
+
